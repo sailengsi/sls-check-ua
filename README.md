@@ -1,1 +1,3 @@
-# sls-check-ua
+{
+	"presets":["env"]
+}
