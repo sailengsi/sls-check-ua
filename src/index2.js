@@ -1,4 +1,4 @@
-export default class UC {
+class UC {
 
     constructor(ua, prefix) {
         this.isIf = false;
