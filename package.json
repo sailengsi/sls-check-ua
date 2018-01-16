@@ -2,20 +2,20 @@
   "name": "check-ua",
   "version": "1.0.0",
   "description": "check-ua",
-  "main": "index.js",
+  "main": "./build/uc.js",
   "scripts": {
     "dev": "rollup -c -w",
     "build": "rm -rf ./dist/* && rollup -c",
-    "test": "mocha ./test/*.test.js"
+    "test": "node ./test/test.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {},
   "devDependencies": {
     "babel-preset-env": "^1.6.1",
-    "chai": "^4.1.2",
+    "express": "^4.16.2",
     "mocha": "^4.1.0",
-    "parcel-bundler": "^1.4.1",
+    "opn": "^5.2.0",
     "rollup": "^0.54.0",
     "rollup-plugin-babel": "^3.0.3",
     "rollup-plugin-buble": "^0.18.0",

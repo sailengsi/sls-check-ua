@@ -222,9 +222,4 @@ export default class UC {
             isWeChat
         };
     }
-
-}
-
-if (window) {
-    window['UC'] = UC;
 }

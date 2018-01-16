@@ -4,9 +4,10 @@ import babel from 'rollup-plugin-babel';
 export default {
     input: 'src/index.js',
     output: {
-        name: 'build/uc.js',
-        file:'build/uc.js',
-        format: 'umd'
+        name: 'UC',
+        file: 'build/uc.js',
+        format: 'umd',
+        // context:'window'
     },
     plugins: [
         buble(),

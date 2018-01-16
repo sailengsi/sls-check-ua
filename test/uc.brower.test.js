@@ -1,6 +1,7 @@
-var expect = require('chai').expect;
+var expect = chai.expect;
 
-const UC = require('../build/uc');
+console.log(mocha);
+
 const ucObj = new UC('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.35555 LuLuYouSDK/1.00-2_3 LuLuYouVersion/10 LuLuYouChannel/appstoreAppStore LuLuYouApp/LiCai');
 
 console.log('本次测试模拟UA字符串为:');

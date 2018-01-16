@@ -1,7 +1,7 @@
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
-	(global['build/uc'] = global['build/uc'] || {}, global['build/uc'].js = factory());
+	(global.UC = factory());
 }(this, (function () { 'use strict';
 
 var UC = function UC(ua, prefix) {
@@ -223,10 +223,6 @@ UC.prototype.getAll = function getAll() {
         isWeChat: isWeChat
     };
 };
-
-// if (window) {
-//     window['UC'] = UC;
-// }
 
 return UC;
 
