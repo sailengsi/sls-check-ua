@@ -1,22 +1,6 @@
 var expect = chai.expect;
 
-console.log(mocha);
-
 const ucObj = new UC('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.35555 LuLuYouSDK/1.00-2_3 LuLuYouVersion/10 LuLuYouChannel/appstoreAppStore LuLuYouApp/LiCai');
-
-console.log('本次测试模拟UA字符串为:');
-console.log(ucObj.ua);
-
-describe('通过 isCheckCustom 方法传入正则表达式来获取自定义UA测试',function () {
-    it('通过正则/LuLuYouSDK\\/[\\S]{1,}/i 获取 LuLuYouSDK/1.00-2_3，返回字符串：LuLuYouSDK/1.00-2_3',function () {
-        expect(ucObj.isCheckCustom(/LuLuYouSDK\/[\S]{1,}/i)).to.be.equal('LuLuYouSDK/1.00-2_3');
-    });
-
-    it('通过正则/LuLuYouSDK\\/[\\w]{1,}/i 获取 LuLuYouSDK/1.00-2_3，返回字符串：LuLuYouSDK/1',function () {
-        expect(ucObj.isCheckCustom(/LuLuYouSDK\/[\w]{1,}/i)).to.be.equal('LuLuYouSDK/1');
-    });
-});
-
 
 
 describe('使用 isXxx 方法检测当前浏览器类型,成功时',function () {
@@ -37,6 +21,45 @@ describe('使用 isXxx 方法检测当前浏览器类型,失败时',function () 
 
     it('isFirefox() 不传参数，也返回false',function () {
         expect(ucObj.isFirefox()).to.be.equal(false);
+    });
+});
+
+
+describe('通过 getCheckCustom 方法传入正则表达式来获取自定义UA测试。',function () {
+    it('通过正则/LuLuYouSDK\\/[\\S]{1,}/i 获取 LuLuYouSDK/1.00-2_3，返回字符串：LuLuYouSDK/1.00-2_3',function () {
+        expect(ucObj.getCheckCustom(/LuLuYouSDK\/[\S]{1,}/i)).to.be.equal('LuLuYouSDK/1.00-2_3');
+    });
+
+    it('通过正则/LuLuYouSDK\\/[\\w]{1,}/i 获取 LuLuYouSDK/1.00-2_3，返回字符串：LuLuYouSDK/1',function () {
+        expect(ucObj.getCheckCustom(/LuLuYouSDK\/[\w]{1,}/i)).to.be.equal('LuLuYouSDK/1');
+    });
+});
+
+
+
+describe('通过 isCheckCustom 方法检测指定字符串是否存在UA中。',function () {
+    it('检测 LuLuYouSDK/1 是否存在UA，返回false',function () {
+        expect(ucObj.isCheckCustom('LuLuYouSDK/1')).to.be.equal(false);
+    });
+
+    it('检测 LuLuYouSDK/1.00-2_3 是否存在UA，返回false',function () {
+        expect(ucObj.isCheckCustom('LuLuYouSDK/1.00-2_3')).to.be.equal(true);
+    });
+
+    it('检测 LuLuYouApp/LiCai 是否存在UA，返回true',function () {
+        expect(ucObj.isCheckCustom('LuLuYouApp/LiCai')).to.be.equal(true);
+    });
+
+    it('检测 YouApp/LiCai 是否存在UA，返回false',function () {
+        expect(ucObj.isCheckCustom('YouApp/LiCai')).to.be.equal(false);
+    });
+
+    it('检测 Mozilla/5.0 是否存在UA，返回true',function () {
+        expect(ucObj.isCheckCustom('Mozilla/5.0')).to.be.equal(true);
+    });
+
+    it('检测 Mozilla/5 是否存在UA，返回false',function () {
+        expect(ucObj.isCheckCustom('Mozilla/5')).to.be.equal(false);
     });
 });
 

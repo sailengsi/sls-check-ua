@@ -90,10 +90,7 @@ export default class UC {
     }
 
 
-    getCustomResult(reg,isIf){
-        if (isIf === true || this.isIf === true) {
-            return (reg).test(this.ua);
-        }
+    getCustomResult(reg) {
         const result = (reg).exec(this.ua);
 
         return result && result[0] ? result[0] : false;
@@ -173,20 +170,38 @@ export default class UC {
     }
 
 
-    isCheckCustom(pattern, isIf) {
-        if(!pattern){
-            throw new  Error('isCheckCustom方法第一个参数必填');
+    getCheckCustom(pattern) {
+        if (!pattern) {
+            throw new Error('isCheckCustom方法第一个参数必填');
             return false;
         }
-        if (pattern.constructor!==RegExp){
-            throw new  Error('isCheckCustom方法第一个参数不是一个合法的正则表达式');
+        if (pattern.constructor !== RegExp) {
+            throw new Error('isCheckCustom方法第一个参数不是一个合法的正则表达式');
             return false;
         }
         // console.log(pattern);
         // console.log(typeof pattern);
         // console.log(pattern.constructor===RegExp);
         // return;
-        return this.getCustomResult(pattern, isIf);
+        return this.getCustomResult(pattern);
+    }
+
+
+    isCheckCustom(str) {
+        if (!str || str.constructor !== String) {
+            throw new Error('isCheckCustom方法第一个参数不是一个合法的字符串');
+            return false;
+        }
+
+        const bettewnFlag = this.ua.indexOf(' ' + str + ' ') !== -1,
+            firstFlag = this.ua.indexOf(str + ' ') === 0,
+            lastFlag = this.ua.indexOf(' ' + str) !== -1 && ( parseInt(this.ua.indexOf(' ' + str)) + parseInt((' ' + str).length) === parseInt(this.ua.length) );
+
+        if ( bettewnFlag || firstFlag || lastFlag ) {
+            return true;
+        }
+
+        return false;
     }
 
 

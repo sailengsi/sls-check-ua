@@ -86,10 +86,7 @@ UC.prototype.getResult = function getResult(reg, isIf, fn) {
     }, customInfo);
 };
 
-UC.prototype.getCustomResult = function getCustomResult(reg, isIf) {
-    if (isIf === true || this.isIf === true) {
-        return reg.test(this.ua);
-    }
+UC.prototype.getCustomResult = function getCustomResult(reg) {
     var result = reg.exec(this.ua);
 
     return result && result[0] ? result[0] : false;
@@ -175,7 +172,7 @@ UC.prototype.isWeChat = function isWeChat(isIf) {
     return this.getResult(/MicroMessenger/i, isIf);
 };
 
-UC.prototype.isCheckCustom = function isCheckCustom(pattern, isIf) {
+UC.prototype.getCheckCustom = function getCheckCustom(pattern) {
     if (!pattern) {
         throw new Error('isCheckCustom方法第一个参数必填');
         return false;
@@ -188,7 +185,24 @@ UC.prototype.isCheckCustom = function isCheckCustom(pattern, isIf) {
     // console.log(typeof pattern);
     // console.log(pattern.constructor===RegExp);
     // return;
-    return this.getCustomResult(pattern, isIf);
+    return this.getCustomResult(pattern);
+};
+
+UC.prototype.isCheckCustom = function isCheckCustom(str) {
+    if (!str || str.constructor !== String) {
+        throw new Error('isCheckCustom方法第一个参数不是一个合法的字符串');
+        return false;
+    }
+
+    var bettewnFlag = this.ua.indexOf(' ' + str + ' ') !== -1,
+        firstFlag = this.ua.indexOf(str + ' ') === 0,
+        lastFlag = this.ua.indexOf(' ' + str) !== -1 && parseInt(this.ua.indexOf(' ' + str)) + parseInt((' ' + str).length) === parseInt(this.ua.length);
+
+    if (bettewnFlag || firstFlag || lastFlag) {
+        return true;
+    }
+
+    return false;
 };
 
 UC.prototype.getAll = function getAll() {

@@ -61,3 +61,30 @@ isIPhone,
 isIPod,
 isWeChat
 ```
+
+### 获取自定义UA方法 getCheckCustom()
+
+```
+ucObj.getCheckCustom(正则表达式)
+```
+成功返回匹配成功的字符串，失败返回`false`
+
+### 检测自定义UA是否存在UA中 isCheckCustom(str)
+
+> 检测依据为以下三种情况符合任意一种即可
+- 以 `str +  ' '`开头
+- 以 `' ' + str`结尾
+- 包含 `' ' + str + ' '`
+
+```
+ucObj.isCheckCustom(自定义UA字符串)
+```
+成功返回`true`,失败返回`false`
+
+
+### 手动构建
+```
+cd sls-check-ua
+cnpm install
+npm run build
+```
