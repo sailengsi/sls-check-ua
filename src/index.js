@@ -1,16 +1,28 @@
 export default class UC {
 
+    /**
+     * 构造函数
+     * @param ua    自定义UA
+     * @param prefix
+     */
     constructor(ua, prefix) {
         this.isIf = false;
         this.updateUa(ua).updatePrefix(prefix);
     }
 
 
+    /**
+     * 暂时没有什么卵用
+     */
     init() {
         console.log('init')
     }
 
 
+    /**
+     * 通过UA获取版本号
+     * @returns {*}
+     */
     matchVersion() {
         const vers = /version\/[\d|.]{1,}/i.exec(this.ua);
         if (vers) {
@@ -24,6 +36,11 @@ export default class UC {
     }
 
 
+    /**
+     * 通过正则匹配到的结果获取版本号
+     * @param res   正则匹配到的结果集
+     * @returns {*}
+     */
     matchVersionByResult(res) {
         if (res) {
             const versArr = res.split(' ');
@@ -37,16 +54,32 @@ export default class UC {
     }
 
 
+    /**
+     * 更新UA
+     * @param ua    UA
+     * @param prefix    ===
+     * @returns {UC}
+     */
     update(ua, prefix) {
         this.updateUa(ua).updatePrefix(prefix);
         return this;
     }
 
+
+    /**
+     * 是否启用全局返回Boolean或者对象
+     * @param isIf
+     */
     updateIsIf(isIf) {
         this.isIf = isIf ? true : false;
     }
 
 
+    /**
+     * 更新UA
+     * @param ua    ua字符串
+     * @returns {UC}
+     */
     updateUa(ua) {
         if (ua && typeof ua === 'string') {
             this.ua = ua;
@@ -57,6 +90,11 @@ export default class UC {
     }
 
 
+    /**
+     * 更新前缀
+     * @param prefix    ===
+     * @returns {UC}
+     */
     updatePrefix(prefix) {
         if (prefix && typeof prefix === 'string') {
             this.prefix = prefix;
@@ -67,6 +105,13 @@ export default class UC {
     }
 
 
+    /**
+     * 根据正则表达式返回匹配结果
+     * @param reg   正则表达式
+     * @param isIf  true:成功返回Boolean，否则成功时返回对象
+     * @param fn    内部特殊处理
+     * @returns {*}
+     */
     getResult(reg, isIf, fn) {
         if (isIf === true || this.isIf === true) {
             return (reg).test(this.ua);
