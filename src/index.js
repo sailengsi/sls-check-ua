@@ -135,6 +135,11 @@ export default class UC {
     }
 
 
+    /**
+     * 获取自定义UA结果
+     * @param reg
+     * @returns {boolean}
+     */
     getCustomResult(reg) {
         const result = (reg).exec(this.ua);
 
@@ -142,27 +147,59 @@ export default class UC {
     }
 
 
+    /**
+     * 是否IE
+     * @returns {*}
+     */
     isIe() {
         return this.getResult(/\bTrident\b/, isIf);
     }
 
+
+    /**
+     * 是否谷歌
+     * @param isIf
+     * @returns {*}
+     */
     isChrome(isIf) {
         return this.getResult(/Chrome\/[\S]{1,}/i, isIf);
     }
 
+
+    /**
+     * 是否火狐
+     * @param isIf
+     * @returns {*}
+     */
     isFirefox(isIf) {
         return this.getResult(/Firefox\/[\S]{1,}/i, isIf);
     }
 
+
+    /**
+     * 是否手机
+     * @returns {*}
+     */
     isMobile() {
         return this.getResult(/(iphone|ipod|((?:android)?.*?mobile)|blackberry|nokia)/i, true);
     }
 
 
+    /**
+     * 是否欧朋
+     * @param isIf
+     * @returns {*}
+     */
     isOpera(isIf) {
         return this.getResult(/opera.*\Wpresto\W/i, isIf);
     }
 
+
+    /**
+     * 是否Safari
+     * @param isIf
+     * @returns {*}
+     */
     isSafari(isIf) {
         return this.getResult(/webkit\W(?!.*chrome).*safari\W/i, isIf, (res) => {
             return this.matchVersion(res);
@@ -170,51 +207,108 @@ export default class UC {
     }
 
 
+    /**
+     * ---
+     * @param isIf
+     * @returns {*}
+     */
     isTablet(isIf) {
         return this.getResult(/(ipad|android(?!.*mobile)|tablet)/i, isIf, (res) => {
             return this.matchVersion(res);
         });
     }
 
+
+    /**
+     * ---
+     * @param isIf
+     * @returns {*}
+     */
     isTV(isIf) {
         return this.getResult(/googletv|sonydtv/i, isIf);
     }
 
+
+    /**
+     * webkit内核
+     * @returns {*}
+     */
     isWebKit() {
         return this.getResult(/webkit\W/i, true);
     }
 
+
+    /**
+     * 是否安卓
+     * @param isIf
+     * @returns {*}
+     */
     isAndroid(isIf) {
         return this.getResult(/android [\S]{1,}/i, isIf, (res) => {
             return this.matchVersionByResult(res[0]);
         });
     }
 
+
+    /**
+     * 是否iOS
+     * @param isIf
+     * @returns {*}
+     */
     isIOS(isIf) {
         return this.getResult(/(ipad|iphone|ipod)/i, isIf, (res) => {
             return this.matchVersion(res);
         });
     }
 
+
+    /**
+     * 是否iPad
+     * @param isIf
+     * @returns {*}
+     */
     isIPad(isIf) {
         return this.getResult(/ipad/i, isIf, (res) => {
             return this.matchVersion(res);
         });
     }
 
+
+    /**
+     * 是否iPhone
+     * @param isIf
+     * @returns {*}
+     */
     isIPhone(isIf) {
         return this.getResult(/iphone/i, isIf);
     }
 
+
+    /**
+     * 是否iPod
+     * @param isIf
+     * @returns {*}
+     */
     isIPod(isIf) {
         return this.getResult(/ipod/i, isIf);
     }
 
+
+    /**
+     * 是否微信
+     * @param isIf
+     * @returns {*}
+     */
     isWeChat(isIf) {
         return this.getResult(/MicroMessenger/i, isIf);
     }
 
 
+    /**
+     * 获取自定义ua
+     * @param pattern
+     * @returns {boolean}
+     */
     getCheckCustom(pattern) {
         if (!pattern) {
             throw new Error('isCheckCustom方法第一个参数必填');
@@ -232,6 +326,11 @@ export default class UC {
     }
 
 
+    /**
+     * 检测是否存在指定ua字符串
+     * @param str
+     * @returns {boolean}
+     */
     isCheckCustom(str) {
         if (!str || str.constructor !== String) {
             throw new Error('isCheckCustom方法第一个参数不是一个合法的字符串');
@@ -250,6 +349,10 @@ export default class UC {
     }
 
 
+    /**
+     * 返回全部支持的方法
+     * @returns {{isChrome: *, isFirefix: *, isMobile: *, isOpera: *, isSafari: *, isTablet: *, isTV: *, isWebKit: *, isAndroid: *, isIOS: *, isIPad: *, isIPhone: *, isIPod: *, isWeChat: *}}
+     */
     getAll() {
         const isChrome = this.isChrome(),
             isFirefix = this.isFirefox(),
