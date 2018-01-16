@@ -88,3 +88,10 @@ cd sls-check-ua
 cnpm install
 npm run build
 ```
+
+### 单元测试
+```
+cd sls-check-ua
+npm install
+npm test
+```
