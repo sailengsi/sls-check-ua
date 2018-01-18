@@ -2,10 +2,10 @@ import buble from 'rollup-plugin-buble';
 import babel from 'rollup-plugin-babel';
 
 export default {
-    input: 'src/main.js',
+    input: 'src/index.js',
     output: {
         name: 'UC',
-        file: 'build/uc-check.js',
+        file: 'build/uc.js',
         format: 'umd',
         // context:'window'
     },
