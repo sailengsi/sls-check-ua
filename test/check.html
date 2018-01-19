@@ -11,16 +11,16 @@
     <h2>
         本次模拟UA如下：
     </h2>
-    <h3>
-        Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.35555 LuLuYouSDK/1.00-2_3 LuLuYouVersion/10 LuLuYouChannel/appstoreAppStore LuLuYouApp/LiCai
-    </h3>
+    <h3 id="mocha-test-ua"></h3>
 </div>
 <div id="mocha"></div>
 <script src="test/mocha.js"></script>
 <script>
     mocha.setup('bdd');
+    window.mochaTestUa = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.35555 LuLuYouSDK/1.00-2_3 LuLuYouVersion/10 LuLuYouChannel/appstoreAppStore LuLuYouApp/LiCai';
+    document.getElementById('mocha-test-ua').innerHTML=window.mochaTestUa;
 </script>
-<script src="build/uc-check.js"></script>
+<script src="build/uc.js"></script>
 <script src="http://chaijs.com/chai.js"></script>
 <script src="test/uc-check.brower.test.js"></script>
 <script>

@@ -128,7 +128,7 @@ export default class UC {
 
         return Object.assign({
             source: result[0],
-            name: info[0],
+            name: info[0],d
             version: info[1],
             v: parseInt(info[1])
         }, customInfo);

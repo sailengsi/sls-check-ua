@@ -18,7 +18,7 @@ app.get("*", function(request, response) {
     });
 });
 
-app.listen(3000, function() {   //监听http://127.0.0.1:3000端口
+app.listen(3000, function() {
     opn('http://localhost:3000/check.html');
     console.log('Server Starting on http://127.0.0.1:3000/index.html');
     console.log('如果浏览器没有自动打开，请手动打开浏览器访问上面的地址，谢谢');

@@ -5,7 +5,7 @@ export default {
     input: 'src/main.js',
     output: {
         name: 'UC',
-        file: 'build/uc-check.js',
+        file: 'build/uc.js',
         format: 'umd',
         // context:'window'
     },
