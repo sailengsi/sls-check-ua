@@ -1,4 +1,9 @@
-export default function(ua){
+/**
+ * 常用浏览器内置类型判断
+ * @param  {String} ua 浏览器UA
+ * @return {Object}    浏览器检测信息
+ */
+export default function(ua) {
     return {
         isChrome: /Chrome\/[\S]{1,}/i.test(ua),
         isFirefix: /Firefox\/[\S]{1,}/i.test(ua),

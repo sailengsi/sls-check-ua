@@ -4,6 +4,11 @@
 	(global.UC = factory());
 }(this, (function () { 'use strict';
 
+/**
+ * 常用浏览器内置类型判断
+ * @param  {String} ua 浏览器UA
+ * @return {Object}    浏览器检测信息
+ */
 function browser (ua) {
     return {
         isChrome: /Chrome\/[\S]{1,}/i.test(ua),
@@ -25,75 +30,94 @@ function browser (ua) {
 }
 
 /**
- * 对正则表达式结果做严谨匹配，符合三种条件才算OK。以空格开头且在UA的最后；以空格结尾且在UA的最前面；前后都有空格，肯定是OK。
- * @param str   正则表达式匹配出来的值
- * @param sourceStr UA字符串
- * @returns {boolean}   成功返回true，失败返回false
+ * 自定义UA检测-理财-跟客户端约定    
+ * @param  {String} ua 浏览器UA
+ * @return {Object}    自定义UA
+ *         Object.LuLuYouSDK
+ *         Object.LuLuYouVersion
+ *         Object.LuLuYouChannel
+ *         Object.LuLuYouApp
  */
-function checkStr (str, sourceStr) {
-    var bettewnFlag = sourceStr.indexOf(" " + str + " ") !== -1,
-        firstFlag = sourceStr.indexOf(str + " ") === 0,
-        lastFlag = sourceStr.indexOf(" " + str) !== -1 && parseInt(sourceStr.indexOf(" " + str)) + parseInt((" " + str).length) === parseInt(sourceStr.length);
-
-    return bettewnFlag || firstFlag || lastFlag;
-}
-
-function getResult (ref) {
-    if (ref === void 0) ref = {};
-    var reg = ref.reg;
-    var splitStr = ref.splitStr;if (splitStr === void 0) splitStr = '/';
-    var ua = ref.ua;
-
-    var result = reg.exec(ua);
-    if (!result) {
-        return [];
-    }
-
-    var str = result[0];
-
-    if (!checkStr(str, ua)) {
-        return [];
-    }
-
-    return str.split(splitStr);
-}
-
 function licai (ua) {
 
-    var LuLuYouSDK = getResult({
-        reg: /LuLuYouSDK\/[\S]{1,}/i,
-        ua: ua
-    });
-    var LuLuYouVersion = getResult({
-        reg: /LuLuYouVersion\/[\S]{1,}/i,
-        ua: ua
-    });
-    var LuLuYouChannel = getResult({
-        reg: /LuLuYouChannel\/[\S]{1,}/i,
-        ua: ua
-    });
-    var LuLuYouApp = getResult({
-        reg: /LuLuYouApp\/[\S]{1,}/i,
-        ua: ua
+    var results = {
+        // LuLuYouSDK: false,
+        // LuLuYouVersion: false,
+        // LuLuYouChannel: false,
+        // LuLuYouApp: false
+    };
+
+    /**
+     * 理财的四个UA正则匹配规则
+     * @type {Object}
+     */
+    var LiCaiRegs = {
+        fields: {
+            LuLuYouSDK: [/[\s ]LuLuYouSDK\/[\S]{1,}[\s ]/i, /[\s ]LuLuYouSDK\/[\S]{1,}$/i, /^LuLuYouSDK\/[\S]{1,}[\s ]/i],
+            LuLuYouVersion: [/[\s ]LuLuYouVersion\/[\S]{1,}[\s ]/i, /[\s ]LuLuYouVersion\/[\S]{1,}$/i, /^LuLuYouVersion\/[\S]{1,}[\s ]/i],
+            LuLuYouChannel: [/[\s ]LuLuYouChannel\/[\S]{1,}[\s ]/i, /[\s ]LuLuYouChannel\/[\S]{1,}$/i, /^LuLuYouChannel\/[\S]{1,}[\s ]/i],
+            LuLuYouApp: [/[\s ]LuLuYouApp\/[\S]{1,}[\s ]/i, /[\s ]LuLuYouApp\/[\S]{1,}$/i, /^LuLuYouApp\/[\S]{1,}[\s ]/i]
+        }
+    };
+
+    /**
+     * 检测上面定义的UA是否存在，存在返回{key:以斜杠拆分后的数组}，不存在不返回此key
+     */
+    Object.keys(LiCaiRegs.fields).forEach(function (type) {
+        var regs = LiCaiRegs.fields[type];
+        for (var i = 0; i < regs.length; i++) {
+            var regRes = regs[i].exec(ua);
+            if (regRes && regRes[0]) {
+                results[type] = regRes[0].replace(/ /g, '').split('/');
+                break;
+            }
+        }
     });
 
-    return {
-        LuLuYouSDK: LuLuYouSDK,
-        LuLuYouVersion: LuLuYouVersion,
-        LuLuYouChannel: LuLuYouChannel,
-        LuLuYouApp: LuLuYouApp
-    };
+    return results;
 }
+
+/**
+ * 获取Android版本号
+ * @param  {String} ua 浏览器UA
+ * @return {Number}    版本号，不存在返回0
+ */
+function androidVersion (ua) {
+	var res = / Android[\s ][\d|.]{1,}/.exec(ua);
+	if (res && res[0]) {
+		return parseInt(res[0].replace(/ /, '').split(' ')[1]);
+	}
+	return 0;
+}
+
+/**
+ * 获取iOS版本
+ * @param  {String} ua 浏览器UA
+ * @return {Number}    版本号，不存在返回0
+ */
+function iosVersion (ua) {
+	var res = / iPhone OS [\d|_]{1,}/.exec(ua);
+	if (res && res[0]) {
+		return parseInt(res[0].replace(/ /, '').split(' ')[2].split('_')[0]);
+	}
+	return 0;
+}
+
+// ......其他自定义
+
 
 var ua = window.navigator.userAgent;
 
 var main = Object.assign({
-    ua: ua
+	ua: ua
 }, browser(ua), {
-    licai: licai(ua),
-    updateLicai: function updateLicai(ua) {
-        return licai(ua || window.navigator.userAgent);
-    }
+	androidVersion: androidVersion(ua),
+	iosVersion: iosVersion(ua)
+}, {
+	licai: licai(ua),
+	updateLicai: function updateLicai(ua) {
+		return licai(ua || window.navigator.userAgent);
+	}
 });
 
 return main;

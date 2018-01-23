@@ -3,84 +3,77 @@
 ### 安装方式
 ```
     npm install check-ua
+ 	const UC = require('check-ua'); or import UC from 'check-ua';
     or
     <script src="uc.js"></script>
 ```
 
 ### 初始化
 ```
-const ucObj = new UC();
-or
-const ucObj = new UC('自定义UA');
-
-console.log(ucObj.ua);  // 返回 ua 字符串
+UC.ua;	// 当前浏览器userAgent字符串
 ```
 
 
-### 检测浏览器类型方法 isXXX() 两种使用方法
+### 目前UC对象支持的浏览器属性检测如下
 
-#### 不传参数 
+> 匹配成功返回true，否则为false
+
 ```
-ucObj.isChrome()
+UC.isChrome 	// 谷歌
+UC.isFirefix 	// 火狐
+UC.isMobile 	// 手机
+UC.isOpera 		// 欧朋
+UC.isSafari 	// Safari
+UC.isTablet
+UC.isTV
+UC.isWebKit 	
+UC.isAndroid
+UC.isIOS
+UC.isIPad
+UC.isIPhone
+UC.isIPod
+UC.isWeChat
+UC.isIe
+UC.isWeChat
 ```
 
-成功时，返回一个对象，格式如下：
+### 版本号
 ```
+UC.androidVersion 	// 当时安卓时，返回对应的Android版本，否则返回0
+UC.iosVersion 		// 当时iOS时，返回对应的iOS版本，否则返回0
+```
+
+### 自定义UA之理财客户端检测，目前理财客户端相关UA类型为如下：
+
+- LuLuYouSDK/1.00-2_3  //客户端SDK版本
+- LuLuYouVersion/10 	//客户端版本
+- LuLuYouChannel/appstoreAppStore 	//客户端来源
+- LuLuYouApp/LiCai 		//客户端名称
+
+> 检测规则如下：
+
+上面四个UA值，分别以斜杠前面的名称+/开头，匹配成功之后，再以/分割成数组，以斜杠前面的名称为key，数组为值得方式返回一个对象。
+
+#### 理财检测返回如下：
+```js
+UC.licai;
+```
+
+上面返回一个对象，格式如下：
+
+```json
 {
-	name:'浏览器名称',
-	version:'浏览器版本名称源值',
-	v:'浏览器版本取整后的值'
+	LuLuYouSDK:['LuLuYouSDK', '1.00-2_3'],
+	LuLuYouVersion:['LuLuYouVersion', '10'],
+	LuLuYouChannel:['LuLuYouChannel', 'appstoreAppStore'],
+	LuLuYouApp:['LuLuYouApp', 'LiCai']
 }
 ```
 
-失败时返回`false`
+> **注意：如果某个属性没有检测到对应的UA，则返回的对象中不包含此属性。**
 
-
-#### 传入参数true
-```
-ucObj.isChrome(true)
-```
-
-成功时返回`true`,失败时返回`false`
-
-
-### 支持的方法如下
-```
-isChrome,
-isFirefix,
-isMobile,
-isOpera,
-isSafari,
-isTablet,
-isTV,
-isWebKit,
-isAndroid,
-isIOS,
-isIPad,
-isIPhone,
-isIPod,
-isWeChat
-```
-
-### 获取自定义UA方法 getCheckCustom()
-
-```
-ucObj.getCheckCustom(正则表达式)
-```
-成功返回匹配成功的字符串，失败返回`false`
-
-### 检测自定义UA是否存在UA中 isCheckCustom(str)
-
-> 检测依据为以下三种情况符合任意一种即可
-- 以 `str +  ' '`开头
-- 以 `' ' + str`结尾
-- 包含 `' ' + str + ' '`
-
-```
-ucObj.isCheckCustom(自定义UA字符串)
-```
-成功返回`true`,失败返回`false`
-
+### updateLicai方法
+此方法是为了测试而用。
 
 ### 手动构建
 ```
@@ -95,10 +88,3 @@ cd sls-check-ua
 npm install
 npm test
 ```
-
-### 待解决
-工厂输出简单对象代替类实例输出 (private内部方法、开销考虑、没有特定原型方法的需求，感觉没有必要)
-es6 template好于 + 拼接 (开销、容错考虑)
-保持方法返回类型的一致性（可以考虑拆分方法，保证类型一致性，有利于可读性，可以v8预优化）
-增加对公司客户端信息的直接输出（外部易用性考虑）
-对系统版本做直接输入（ios版本号、 android版本号等）
